@@ -1,0 +1,25 @@
+<mat-dialog-content class="mat-typography">
+  <div *ngIf="verifying">
+    Estamos verificando tu pago...
+    <mat-progress-spinner class="center" [color]="'primary'" [mode]="'indeterminate'">
+    </mat-progress-spinner>
+  </div>
+  <div *ngIf="verified" class="text-center">
+    <mat-icon color="primary" style="font-size: 80px;margin-left: -50px;">check_circle</mat-icon>
+    <br>
+    Tus créditos han sido abonados exitosamente
+  </div>
+  <div *ngIf="error" class="text-center">
+    <mat-icon color="warn" style="font-size: 80px;margin-left: -50px;">mood_bad</mat-icon>
+    <br>
+    Ocurrio un error al verificar tu pago.
+    <br>
+    Si no recibes tus créditos en un plazo de 1 hora, por favor contacta Quiniela PRO por email y/o la página de
+    Facebook
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <a *ngIf="error" href="http://m.me/quinielaPROapp" target="_blank" color="warn" mat-button>Email</a>
+  <a *ngIf="error" href="http://m.me/quinielaPROapp" target="_blank" color="accent" mat-button>Facebook</a>
+  <button *ngIf="error || verified" mat-button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

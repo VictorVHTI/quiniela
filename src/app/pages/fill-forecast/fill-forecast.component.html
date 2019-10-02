@@ -1,0 +1,89 @@
+<form ng-submit="saveForecast()" name="fillForecatsForm">
+  <h2 mat-dialog-title>
+  {{quiniela.name}}: {{member.first_name}} {{member.last_name}}
+  </h2>
+  <mat-dialog-content class="mat-typography">
+    <table style="margin: 0 auto;" *ngIf="!errorMsg && !loading">
+      <tbody>
+        <tr *ngFor="let m of jornada.matches; let i = index">
+
+          <td class="text-center">
+            <img src="{{m.team_local.icon}}" alt="" height="50px">
+            <br>
+            <span class="text-capitalize">{{m.team_local.label}}</span>
+          </td>
+
+          <!-- input radio for Quiniela Simple -->
+          <ng-container *ngIf="quiniela.simple">
+            <mat-radio-group [(ngModel)]="myForecastSimple[i]" [ngModelOptions]="{standalone: true}">
+              <td>
+                <mat-radio-button value="L"></mat-radio-button>
+              </td>
+              <td>
+                <mat-radio-button value="E"></mat-radio-button>
+              </td>
+              <td>
+                <mat-radio-button value="V"></mat-radio-button>
+              </td>
+            </mat-radio-group>
+          </ng-container>
+          <!-- ends input radio for Quiniela Simple -->
+
+          <ng-container *ngIf="!quiniela.simple">
+
+            <td>
+              <button mat-icon-button color="primary" (click)="myForecast[i][0] = myForecast[i][0] + 1">
+                <mat-icon>keyboard_arrow_up</mat-icon>
+              </button>
+              <h2 class="text-center no-margin">{{myForecast[i][0]}}</h2>
+              <button mat-icon-button color="primary" (click)="myForecast[i][0] > 0 && myForecast[i][0] = myForecast[i][0] - 1;">
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              </button>
+            </td>
+
+            <td>
+              <button mat-icon-button color="primary" (click)="myForecast[i][1] = myForecast[i][1] + 1">
+                <mat-icon>keyboard_arrow_up</mat-icon>
+              </button>
+              <h2 class="text-center no-margin">{{myForecast[i][1]}}</h2>
+              <button mat-icon-button color="primary" (click)="myForecast[i][1] > 0 && myForecast[i][1] = myForecast[i][1] - 1;">
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              </button>
+            </td>
+
+          </ng-container>
+
+          <td class="text-center">
+            <img src="{{m.team_foreign.icon}}" alt="" height="50px">
+            <br>
+            <span class="text-capitalize">{{m.team_foreign.label}}</span>
+          </td>
+
+        </tr>
+        <tr *ngIf="quiniela.tiebreaker">
+          <td colspan="5">
+            <br>
+            <br>
+
+            <mat-form-field class="full-width">
+              <input type="number" matInput placeholder="Cantidad de goles:" value="" name="totalGoals" [(ngModel)]="totalGoals">
+            </mat-form-field>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <mat-progress-spinner *ngIf="loading" class="center"
+            [color]="'primary'"
+            [mode]="'indeterminate'">
+        </mat-progress-spinner>
+    <div *ngIf="errorMsg" color="warn">
+      {{errorMsg}}
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <hr style="width: 100%;">
+    <button mat-raised-button mat-dialog-close>{{errorMsg ? 'Ok' : 'Cancel'}}</button>
+    <button *ngIf="!errorMsg" mat-raised-button (click)="getLucky()" color="accent">Aleatorio</button>
+    <button *ngIf="!errorMsg" mat-raised-button color="primary" cdkFocusInitial type="submit" [disabled]="quiniela.tiebreaker && !totalGoals" (click)="saveForecast()">Guardar</button>
+  </mat-dialog-actions>
+</form>

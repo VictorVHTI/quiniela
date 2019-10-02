@@ -1,0 +1,21 @@
+:host{
+    .pricing-card{
+        box-shadow: 0 5px 10px rgba(0,0,0,.2);
+        margin: 10px 0;
+        cursor: pointer;
+    }
+
+    .pricing-card-header{
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        background: linear-gradient(293deg,#0AF 0,#2cab80 120%);
+        text-align: center;
+        color: #fff;
+        padding: 15px 0;
+    }
+    .pricing-card-body{
+        padding: 20px 0;
+        text-align: center;
+        color: #333;
+    }
+}

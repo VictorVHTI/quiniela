@@ -1,0 +1,66 @@
+<span style="min-height: 4px; display: block;">
+  <mat-progress-bar mode="indeterminate" *ngIf="loadingCredits">
+  </mat-progress-bar>
+</span>
+
+<div class="padding">
+
+  <div class="row">
+    <div class="col-xs-12">
+      <h2 class="no-margin">
+        Tus créditos: <span class="text-blue">{{myCredits}}</span>
+        <!-- <mat-progress-spinner class="center" [color]="'accent'" [mode]="'indeterminate'" [diameter]="40">
+          </mat-progress-spinner> -->
+      </h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <h4>Agregar créditos a tu cuenta:</h4>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!selectedCredits">
+    <div class="col-sm-4 padding" style="box-sizing: border-box;" *ngFor="let p of prices">
+      <div matRipple class="pricing-card" (click)="selectCredits(p)">
+        <div class="pricing-card-header">
+          <h2>{{p.credits}} Créditos</h2>
+        </div>
+        <div class="pricing-card-body">
+          <h2 ion-text text-center>${{p.price}}.00 MXN</h2>
+          <h5 class="text-red no-margin">
+            {{ p.save && p.save > 0 ? ('Ahorras $' + p.save + '.00 MXN') : '&nbsp;' }}
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="selectedCredits">
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-4">
+        <table style="width: 100%;">
+          <tbody>
+            <tr>
+              <th class="text-right"><h3 class="no-margin">Créditos:</h3></th>
+              <th class="text-right"><h3 class="no-margin">{{selectedCredits.credits}}</h3></th>
+            </tr>
+            <tr>
+              <th class="text-right"><h3 class="no-margin">Total:</h3></th>
+              <th class="text-right"><h3 class="no-margin">${{selectedCredits.price}}.00 MXN</h3></th>
+            </tr>
+            <tr>
+              <th></th>
+              <th><button mat-raised-button color="warn" class="btn-full-width" (click)="selectedCredits = null">Cambiar</button></th>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+        <h3>Elige una forma de pago:</h3>
+        <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+      </div>
+    </div>
+  </div>
+
+</div>

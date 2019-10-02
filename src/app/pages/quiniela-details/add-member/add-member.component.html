@@ -1,0 +1,110 @@
+<h2 mat-dialog-title>{{ view === 'createProfile' ? 'Crear Perfil' : 'Perfiles'}}</h2>
+<mat-dialog-content>
+
+  <!-- adding members -->
+  <div *ngIf="addingMembers" class="center text-center">
+    Agregando usuarios...
+    <mat-progress-spinner class="center" [color]="'primary'" [mode]="'indeterminate'">
+    </mat-progress-spinner>
+  </div>
+
+  <!-- adding members -->
+  <div *ngIf="creatingProfile" class="center text-center">
+    Creando perfil...
+    <mat-progress-spinner class="center" [color]="'primary'" [mode]="'indeterminate'">
+    </mat-progress-spinner>
+  </div>
+
+  <!-- profiles list -->
+  <div *ngIf="view === 'profiles' && !addingMembers" class="row">
+    <div class="col-sm-4 sticky-cell">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar por nombre">
+      </mat-form-field>
+      <div class="margin-right">
+        <button mat-raised-button class="btn-full-width" color="primary" (click)="createProfile()">Crear un
+          perfil</button>
+      </div>
+    </div>
+    <div class="col-sm-8 padding" style="box-sizing:border-box;z-index: 10;">
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef sticky-cell>
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="first_name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sticky-cell>Nombre</th>
+          <td mat-cell *matCellDef="let element">
+            <div class="center" mat-avatar style="float:left;"
+              [style.background-image]="'url(' + element.picture.data.url + ')'"></div>
+            <span style="line-height:35px">
+              &nbsp;{{element.first_name + ' ' + element.last_name}}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- actions -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="text-center" sticky-cell>Acciones</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            <a href="javascript:;" (click)="deleteProfile(element)">
+              <mat-icon color="warn" matTooltip="Eliminar" [matTooltipPosition]="'above'">delete</mat-icon>
+            </a>
+          </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      </table>
+    </div>
+  </div>
+
+  <div *ngIf="view === 'createProfile' && !creatingProfile" class="row">
+    <form [formGroup]="profileForm" (ngSubmit)="login()">
+      <div class="form-container col-sm-6">
+        <div class="big-avatar" mat-avatar [style.background-image]="'url(' + newProfile.picture.data.url + ')'"></div>
+
+
+
+        <mat-form-field>
+          <input matInput name="first_name" placeholder="Nombre" formControlName="first_name">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput name="last_name" placeholder="Apellido" formControlName="last_name">
+        </mat-form-field>
+      </div>
+    </form>
+    <div class="avatars col-sm-6 padding" style="box-sizing:border-box;z-index: 10;">
+      Cambiar avatar:
+      <br>
+      <div style="display: inline-block; margin-right: 3px; cursor: pointer;" *ngFor="let av of avatars" mat-avatar
+        [style.background-image]="'url(' + av + ')'" (click)="newProfile.picture.data.url = av;"></div>
+    </div>
+
+
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <!-- create profile -->
+  <button *ngIf="view === 'createProfile'" mat-button (click)="view = 'profiles'">Cancel</button>
+  <button *ngIf="view === 'createProfile'" mat-button color="primary" (click)="saveProfile()" [disabled]="invalidProfile()">Crear perfil</button>
+
+  <!-- add members -->
+  <button *ngIf="view !== 'createProfile'" mat-button mat-dialog-close>Cancel</button>
+  <button *ngIf="view !== 'createProfile'" mat-button color="primary" (click)="addMembers()">Agregar seleccionado(s)</button>
+</mat-dialog-actions>

@@ -1,0 +1,28 @@
+:host{
+    div[mat-avatar]{
+      width: 35px;
+      height: 35px;
+    }
+    .user-inactive{
+      opacity: .4;
+      text-decoration: line-through;
+    }
+    table{
+      width: 100%;
+  
+      th[sticky-cell]{
+        top: 0px;
+        position: sticky;
+        z-index: 1;
+        background: #fff;
+      }
+      th,td{
+        padding-left: 5px;
+        padding-right: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+  

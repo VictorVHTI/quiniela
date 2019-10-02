@@ -1,0 +1,32 @@
+<span style="min-height: 4px; display: block;">
+  <mat-progress-bar mode="indeterminate" *ngIf="loadingDash" color="accent">
+  </mat-progress-bar>
+</span>
+<div class="padding">
+
+  <div class="row">
+    <div class="col-sm-6">
+      <h2 class="no-margin">QUINIELAS</h2>
+    </div>
+    <div class="col-sm-6">
+      <mat-checkbox class="example-margin" [(ngModel)]="showArchived" (ngModelChange)="loadDashboard()">Mostar Quinielas finalizadas.</mat-checkbox>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-sm-4 col-md-3 card-container" *ngFor="let q of myQuinielas" style="box-sizing: border-box;">
+      <mat-card matRipple (click)="details(q)" class="cursor-pointer">
+        <mat-card-header>
+          <mat-card-title class="text-ellipsis">
+            <mat-icon matTooltip="Creada por ti" [matTooltipPosition]="'above'" [matTooltipHideDelay]="'1000'" color="warn" *ngIf="q.createdByMe" class="pull-left">
+              stars
+            </mat-icon>
+            <span style="vertical-align: top;">{{q.quiniela_name}}</span>
+          </mat-card-title>
+        </mat-card-header>
+        <img mat-card-image src="{{q.q_picture}}" alt="Photo of a Shiba Inu">
+      </mat-card>
+    </div>
+  </div>
+
+</div>

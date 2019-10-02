@@ -1,0 +1,46 @@
+<mat-sidenav-container>
+
+  <mat-sidenav class="text-center" mode="side" [(opened)]="opened" fixedInViewport="true" *ngIf="logged">
+    <div class="center" mat-avatar [style.background-image]="'url(' + profile.picture.data.url + ')'"></div>
+    <h3 class="text-ellipsis">{{profile.first_name}} {{profile.last_name}}</h3>
+    <h3 class="center menu-link">
+        <a routerLink="/credits">Créditos: {{myCredits}}</a>
+    </h3>
+
+    <hr>
+
+    <nav>
+        <ul>
+          <li><a routerLink="/dashboard" routerLinkActive="active-link">Quinielas</a></li>
+          <li><a routerLink="/news" routerLinkActive="active-link">Noticias</a> </li>
+        </ul>
+    </nav>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+
+    <!-- toolbar -->
+    <mat-toolbar color="primary" *ngIf="logged">
+
+      <button mat-icon-button (click)="toogleMenu()">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <div mat-avatar style="background-image: url(/assets/imgs/icon.png)">
+      </div>
+      <span>Quiniela PRO Web ( Beta )</span>
+      <span class="fill-space"></span>
+
+      <button mat-icon-button (click)="exit();">
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
+    </mat-toolbar>
+    <!-- end toolbar -->
+
+
+    <router-outlet></router-outlet>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

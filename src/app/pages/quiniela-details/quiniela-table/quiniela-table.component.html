@@ -1,0 +1,62 @@
+<!-- <div style="height: calc(100vh - 48px - 64px - 30px);overflow:auto;"> -->
+<div>
+  <a href="javascript:;" (click)="pdf()">
+    <mat-icon>print</mat-icon>
+  </a>
+  <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[20,50,100]" showFirstLastButtons></mat-paginator>
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="zoom: .75;">
+
+
+    <!-- Points Column -->
+    <ng-container matColumnDef="points">
+      <th sticky-cell mat-header-cell *matHeaderCellDef mat-sort-header style="z-index:101;">Pts.</th>
+      <td mat-cell *matCellDef="let element" class="text-center"
+        [style.background]="profile._id === element.member_id ? 'lightgreen' : ''"> {{element.points}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="first_name">
+      <th sticky-cell mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+      <td mat-cell *matCellDef="let element" [style.background]="profile._id === element.member_id ? 'lightgreen' : ''">
+        <div class="center" mat-avatar style="float:left;"
+          [style.background-image]="'url(' + element.picture.data.url + ')'"></div>
+        <span style="line-height:35px">
+          &nbsp;{{element.first_name + ' ' + element.last_name}}
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="matches">
+      <ng-container *matHeaderCellDef>
+        <th sticky-cell mat-header-cell *ngFor="let m of jornada.matches" class="text-center" style="padding: 5px;"
+          [style.background]="m.finish ? '#9DD929' : m.done ? '#488aff' : '' " [style.color]="m.done ? '#fff' : ''">
+          <img src="{{m.team_local.icon}}" title="{{m.team_local.label}}" alt="" height="20px;">
+          <br>{{m.team_local.acronym}} <span *ngIf="m.done">({{m.result[0]}})</span>
+          <div class="clearfix">
+
+          </div>
+          <img src="{{m.team_foreign.icon}}" title="{{m.team_foreign.label}}" alt="" height="20px">
+          <br>{{m.team_foreign.acronym}} <span *ngIf="m.done">({{m.result[1]}})</span>
+        </th>
+      </ng-container>
+
+      <ng-container *matCellDef="let element">
+        <td mat-cell *ngFor="let m of element.results; let i = index" [style.color]="element.colors[i]"
+          [style.background]="profile._id === element.member_id ? 'lightgreen' : ''" class="text-center">
+          <span *ngIf="!quiniela.simple">{{m[0]}} - {{m[1]}}</span>
+          <span *ngIf="quiniela.simple">{{getMatchResult(m[0], m[1])}}</span>
+        </td>
+      </ng-container>
+    </ng-container>
+
+    <ng-container matColumnDef="difference">
+      <th sticky-cell mat-header-cell *matHeaderCellDef class="text-center">{{totalGoals}} Goles</th>
+      <td mat-cell *matCellDef="let element" class="text-center">{{element.numberGoals}} / <span
+          style="color: green;">{{element.difference}}</span> </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+</div>

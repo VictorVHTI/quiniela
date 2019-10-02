@@ -1,0 +1,73 @@
+<div class="row">
+
+
+  <div class="col-sm-4">
+    <div class="margin-right">
+      <table style="width: 100%">
+        <tr>
+          <td>
+            <mat-icon>people</mat-icon>
+          </td>
+          <td>Capacidad de pronósticos</td>
+          <td>
+            {{forecastsLength}} / {{limit}}
+          </td>
+        </tr>
+      </table>
+      <button *ngIf="!inProgress" mat-raised-button class="btn-full-width" color="primary" (click)="addMemberDialog()">Agregar
+        participantes</button>
+    </div>
+  </div>
+
+
+  <div class="col-sm-8">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="first_name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+        <td mat-cell *matCellDef="let element" [ngClass]="{'user-inactive' : !element.active}">
+          <div class="center" mat-avatar style="float:left;" [style.background-image]="'url(' + element.picture.data.url + ')'"></div>
+          <span style="line-height:35px;">
+            &nbsp;{{element.first_name + ' ' + element.last_name}}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- starred -->
+      <ng-container matColumnDef="starred">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Estrellita</th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <mat-icon color="{{element.starred ? 'warn' : ''}}" class="cursor-pointer" (click)="star(element)">star</mat-icon>
+        </td>
+      </ng-container>
+
+      <!-- forecasts -->
+      <ng-container matColumnDef="forecasts">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Pronósticos</th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          {{element.results.length}}
+        </td>
+      </ng-container>
+
+      <!-- actions -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Acciones</th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <a href="javascript:;">
+            <mat-icon (click)="memberAction(element, 'disable')" color="accent" matTooltip="Deshabilitar" [matTooltipPosition]="'above'">cancel</mat-icon>
+          </a>
+          &nbsp;
+          <a href="javascript:;">
+            <mat-icon (click)="memberAction(element, 'remove')" color="warn" matTooltip="Eliminar" [matTooltipPosition]="'above'">delete</mat-icon>
+          </a>
+        </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+    </table>
+  </div>
+</div>

@@ -1,0 +1,69 @@
+<div class="login-bg"></div>
+
+<div class="container" style="margin-top: 50px;">
+  <div class="row">
+
+    <div class="col-sm-5 col-md-4 col-sm-offset-1 col-md-offset-2 padding hidden-xs" style="box-sizing: border-box;">
+      <img src="{{currentFrame}}" width="75%" class="center" alt="">
+    </div>
+
+    <div class="col-sm-5 col-md-4 padding" style="box-sizing: border-box;">
+      <mat-progress-spinner *ngIf="loging" class="center"
+              [color]="'primary'"
+              [mode]="'indeterminate'">
+          </mat-progress-spinner>
+      <mat-card  *ngIf="!loging">
+        <h3 class="text-center">Quiniela PRO Web</h3>
+        <!-- <img src="/assets/imgs/icon.png" class="center" height="70px;" alt=""> -->
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+          <mat-card-content>
+
+            <mat-form-field>
+              <input matInput name="email" placeholder="Email" formControlName="email">
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput name="password" type="password" placeholder="Contraseña" formControlName="password">
+            </mat-form-field>
+
+
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <button mat-raised-button color="primary" [disabled]="!loginForm.valid">Ingresar</button>
+          </mat-card-actions>
+        </form>
+
+        <hr>
+        <br>
+        <button class="btn-facebook" mat-raised-button (click)="fbLogin()">Ingresar con Facebook</button>
+
+      </mat-card>
+      <br>
+      <div class="center">
+        <h5 class="text-white-shadowed text-center">
+          ¿No tienes una cuenta? Descarga el app hoy mismo y disfruta de Quiniela PRO
+        </h5>
+        <div class="row center text-center">
+          <div class="col-xs-6">
+            <a href="https://itunes.apple.com/us/app/quiniela-pro/id1358115507?ls=1&mt=8">
+              <img src="/assets/imgs/app-store.png" alt="" width="95%" class="center">
+            </a>
+          </div>
+          <div class="col-xs-6">
+            <a href="https://play.google.com/store/apps/details?id=com.quinielapro.app">
+              <img src="/assets/imgs/google-play.png" alt="" width="95%" class="center">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row" style="margin-top: 40px;">
+    <div class="col-xs-12 text-center">
+      <a href="http://www.quinielapro.com/privacy">Politica de privacidad</a>
+      <span style="color:#555;">&nbsp;&nbsp;© 2018 Quiniela PRO</span>
+    </div>
+  </div>
+</div>

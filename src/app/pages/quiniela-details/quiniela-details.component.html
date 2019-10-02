@@ -1,0 +1,196 @@
+<span style="min-height: 4px; display: block;">
+  <mat-progress-bar mode="indeterminate" *ngIf="showProgressBar" color="accent">
+</mat-progress-bar>
+</span>
+<div class="padding">
+  <div class="pull-right" *ngIf="showCron">
+    Comienza en:
+    {{days}} días, {{hours}} horas, {{minutes}} minutos, {{seconds}} segs.
+  </div>
+  <h2 class="no-margin" *ngIf="quiniela">
+    <a routerLink="/dashboard">QUINIELAS</a> >
+    {{quiniela.name}}
+    <!-- <a href="javascript:;">
+      <mat-icon>share</mat-icon>
+    </a> -->
+  </h2>
+</div>
+
+<mat-tab-group mat-align-tabs="center">
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon">info</mat-icon>
+      Información Gral.
+    </ng-template>
+    <div class="padding"*ngIf="quiniela">
+
+      <ul class="info center" style="width: fit-content;">
+        <li>
+          <span>Nombre</span> {{quiniela.name}}
+        </li>
+
+        <li>
+          <span>Código</span> {{quiniela.shareCode}}
+        </li>
+
+        <li>
+          <span>Jornada</span> {{quiniela.jornada_name}}
+        </li>
+
+        <li>
+          <span>Tipo</span> {{quiniela.simple ? 'Simple' : 'Marcador'}}
+        </li>
+
+        <li>
+          <span>Criterio de desempate</span> {{quiniela.tiebreaker ? 'Si' : 'No'}}
+        </li>
+
+        <li>
+          <span>Administrador</span> {{quiniela.createdBy.first_name}} {{quiniela.createdBy.last_name}}
+        </li>
+
+        <li>
+          <span>Participantes</span> {{members.length}}
+        </li>
+
+        <li>
+          <span>Pronósticos</span>
+          {{forecasts.length}}
+        </li>
+
+        <hr>
+
+        <li>
+          <span>Inicia</span>
+          {{jornada.startDate | date: 'dd/MM/yyyy - hh:mm a'}}
+        </li>
+        <li>
+          <span>Termina</span>
+          {{jornada.endDate | date: 'dd/MM/yyyy - hh:mm a'}}
+        </li>
+
+      </ul>
+      <div class="clearfix">
+      </div>
+    </div>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon">bar_chart</mat-icon>
+      Tu pronóstico
+    </ng-template>
+    <ng-template matTabContent>
+      <div class="padding">
+        <table style="margin: 0 auto;" *ngIf="!me.length">
+          <tr *ngIf="!jornada.inprogress">
+            <td colspan="5" class="text-center">
+              <button mat-raised-button color="primary" class="btn-full-width text-uppercase" (click)="fillForecastDialog()">
+                Llenar pronóstico
+              </button>
+            </td>
+          </tr>
+        </table>
+        <table style="margin: 0 auto;" *ngIf="me && me.length">
+          <thead>
+            <tr *ngIf="!jornada.inprogress">
+              <td colspan="5" class="text-center">
+                <button mat-raised-button color="primary" class="btn-full-width text-uppercase" (click)="fillForecastDialog()">
+                  Llenar otro pronóstico
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <button mat-fab (click)="mePos > 0 && mePos = mePos -1;">
+                  <mat-icon>arrow_back</mat-icon>
+                </button>
+              </td>
+              <td class="text-center"><h1>{{mePos + 1}} de {{me.length}}</h1></td>
+              <td colspan="2" class="text-right">
+                <button mat-fab (click)="mePos < (me.length-1) && mePos = mePos +1;">
+                  <mat-icon>arrow_forward</mat-icon>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="5">
+                <mat-card class="text-center">
+                  Acumulado: <strong>{{me[mePos].points}} puntos</strong>
+                  </mat-card>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let m of jornada.matches;let i = index">
+              <td class="text-center">
+                <img src="{{m.team_local.icon}}" alt="" height="50px">
+                <br>
+                <span class="text-capitalize">{{m.team_local.label}}</span>
+              </td>
+              <td [style.color]="me[mePos].colors[i]">
+                <h1 *ngIf="!me[mePos].LEV">{{me[mePos].results[i][0]}}</h1>
+                <h1 *ngIf="me[mePos].LEV">{{me[mePos].LEV[i]}}</h1>
+              </td>
+              <td class="padding text-center">
+                <mat-card>
+                  <span *ngIf="m.done">{{m.result[0]}} - {{m.result[1]}}</span>
+                  <span *ngIf="!m.done">
+                    {{(m.date | date: 'hh:mm a')}}
+                    <br>
+                    {{m.team_local.stadium[0]}}
+                  </span>
+                </mat-card>
+                {{m.finish ? 'FINAL' : m.done ? 'EN CURSO' : '' }}
+              </td>
+              <td [style.color]="me[mePos].colors[i]">
+                <h1 *ngIf="!me[mePos].LEV">{{me[mePos].results[i][1]}}</h1>
+                <h1 *ngIf="me[mePos].LEV">{{me[mePos].LEV[i]}}</h1>
+              </td>
+              <td class="text-center">
+                <img src="{{m.team_foreign.icon}}" alt="" height="50px">
+                <br>
+                <span class="text-capitalize">{{m.team_foreign.label}}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon">grid_on</mat-icon>
+      Tabla de resultados ({{forecasts ? forecasts.length : ''}})
+    </ng-template>
+    <ng-template matTabContent>
+      <div class="padding">
+        <app-quiniela-table
+        [_forecasts]="forecasts"
+        [jornada]="jornada"
+        [totalGoals]="totalGoals"
+        [quiniela]="quiniela"
+        ></app-quiniela-table>
+      </div>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab *ngIf="imAdmin">
+      <ng-template mat-tab-label>
+        <mat-icon>settings</mat-icon>
+        Admin
+      </ng-template>
+      <div class="padding"*ngIf="quiniela">
+        <app-quiniela-admin 
+        [quiniela]="quiniela" 
+        [_members]="members" 
+        [_forecastsLength]="forecasts.length" 
+        [_limit]="quiniela.limit"
+        [_inProgress]="jornada.inprogress">
+
+        </app-quiniela-admin>
+      </div>
+    </mat-tab>
+</mat-tab-group>

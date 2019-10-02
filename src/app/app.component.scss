@@ -1,0 +1,44 @@
+:host{
+  mat-sidenav-container{
+    min-height: 100vh;
+  }
+  mat-sidenav{
+    color: #fff;
+    width: 200px;
+    padding: 15px;
+    background: linear-gradient(293deg,#0AF 0,#2cab80 120%);
+    border-color: #2cab80;
+
+    div[mat-avatar]{
+      width: 100px;
+      height: 100px;
+      border: 5px solid #fff;
+    }
+
+    .menu-link a{
+      color: #fff;
+
+    }
+
+    ul{
+      list-style: none;
+      padding: 0;
+      text-align: left;
+    }
+
+    ul>li>a{
+      display: block;
+      color: #fff;
+      padding: 15px 10px;
+      text-decoration: none;
+      font-size: 25px;
+      width: auto;
+    }
+    ul>li>a.active-link{
+      border: 1px solid;
+    }
+    ul>li>a:hover{
+      background: rgba(0,0,0,.1);
+    }
+  }
+}

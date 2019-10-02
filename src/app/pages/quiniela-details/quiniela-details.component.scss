@@ -1,0 +1,17 @@
+:host{
+  ul.info{
+    list-style: none;
+    padding: 0;
+
+    li{
+      font-size: 20px;
+      margin: 15px 0;
+
+      span{
+        font-weight: bold;
+        min-width: 250px;
+        float: left;
+      }
+    }
+  }
+}

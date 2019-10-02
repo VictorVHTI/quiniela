@@ -1,0 +1,31 @@
+<span style="min-height: 4px; display: block;">
+  <mat-progress-bar mode="indeterminate" *ngIf="loadingNews">
+  </mat-progress-bar>
+</span>
+
+<div class="padding">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2 class="no-margin">NOTICIAS</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 padding" *ngFor="let n of news" style="box-sizing: border-box;">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{n.title}}</mat-card-title>
+        </mat-card-header>
+        <div mat-card-image-bg [style.background-image]="'url(' + n.image + ')'">
+
+        </div>
+
+        <mat-card-content>
+          <p>
+            {{n.body}}
+          </p>
+          <p *ngIf="n.source"> <strong color="primary">Fuente: </strong>{{n.source}} </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
